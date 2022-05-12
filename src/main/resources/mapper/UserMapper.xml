@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.thegodisgad.user.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="top.thegodisgad.user.entity.User">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="registerSource" column="register_source" jdbcType="TINYINT"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+        <result property="mobileBindTime" column="mobile_bind_time" jdbcType="TIMESTAMP"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="emailBindTime" column="email_bind_time" jdbcType="TIMESTAMP"/>
+        <result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+        <result property="gender" column="gender" jdbcType="TINYINT"/>
+        <result property="headPortrait" column="head_portrait" jdbcType="BIGINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        select id,
+               gmt_create,
+               gmt_modified,
+               user_id,
+               nick_name,
+               register_source,
+               user_name,
+               mobile,
+               mobile_bind_time,
+               email,
+               email_bind_time,
+               birthday,
+               gender,
+               head_portrait,
+               status
+        from tb_user
+    </sql>
+    <resultMap id="SimpleResultMap" type="top.thegodisgad.user.entity.User">
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+        <result property="gender" column="gender" jdbcType="TINYINT"/>
+        <result property="headPortrait" column="head_portrait" jdbcType="BIGINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+    </resultMap>
+    <sql id="Simple_Column_list">
+        select user_id,
+               user_name,
+               nick_name,
+               birthday,
+               gender,
+               head_portrait,
+               status
+        from tb_user</sql>
+    <select id="selectByUserId" resultType="top.thegodisgad.user.entity.User" resultMap="BaseResultMap">
+        <include refid="Base_Column_List"/>
+        where user_id=#{userId}
+    </select>
+
+    <select id="selectUsers" resultType="top.thegodisgad.user.entity.User" resultMap="SimpleResultMap" parameterType="top.thegodisgad.user.entity.User">
+        <include refid="Simple_Column_list"/>
+        <where>
+            <if test="userId!=null">or user_id=#{userId}</if>
+            <if test="userName!=null and userName!=''">or user_name like CONCAT('%',#{userName},'%')</if>
+            <if test="nickName!=null and nickName!=''">or nick_name like CONCAT('%',#{nickName},'%')</if>
+            and status=1
+        </where>
+    </select>
+    <sql id="Base_User_key">
+        <trim suffixOverrides="," >
+            <if test="userId!=null">user_id,</if>
+            <if test="nickName!=null and nickName!=''">nick_name,</if>
+            <if test="registerSource!=null">register_source,</if>
+            <if test="userName!=null and userName!=''">user_name,</if>
+            <if test="mobile!=null and mobile!=''">mobile,mobile_bind_time,</if>
+            <if test="email!=null and email!=''">email,email_bind_time,</if>
+            <if test="birthday!=null">birthday,</if>
+            <if test="gender!=null">gender,</if>
+            <if test="headPortrait!=null and headPortrait!=''">head_portrait,</if>
+            <if test="status!=null ">status</if>
+        </trim>
+    </sql>
+    <sql id="Base_User_values">
+        <trim suffixOverrides="," >
+            <if test="userId!=null">#{userId},</if>
+            <if test="nickName!=null and nickName!=''">#{nickName},</if>
+            <if test="registerSource!=null">#{registerSource},</if>
+            <if test="userName!=null and userName!=''">#{userName},</if>
+            <if test="mobile!=null and mobile!=''">#{mobile},NOW(),</if>
+            <if test="email!=null and email!=''">#{email},NOW(),</if>
+            <if test="birthday!=null">#{birthday},</if>
+            <if test="gender!=null">#{gender},</if>
+            <if test="headPortrait!=null and headPortrait!=''">#{headPortrait},</if>
+            <if test="status!=null ">#{status}</if>
+        </trim>
+    </sql>
+    <insert id="insertUser" parameterType="top.thegodisgad.user.entity.User">
+        insert into tb_user(<include refid="Base_User_key"/>) values(<include
+            refid="Base_User_values"/>)
+
+    </insert>
+    <update id="updateForLogout" parameterType="top.thegodisgad.user.entity.User">
+        update tb_user
+        <set>
+            <if test="status!=null">status=#{status}</if>
+        </set>
+        where user_id=#{userId}
+    </update>
+    <update id="updateForEditInformation" parameterType="top.thegodisgad.user.entity.User">
+        update tb_user
+        <set>
+            <if test="userName!=null and userName!=''">user_name=#{userName},</if>
+            <if test="nickName!=null and nickName!=''">nick_name=#{nickName},</if>
+            <if test="mobile!=null and mobile!=''">mobile=#{mobile},mobile_bind_time=NOW(),</if>
+            <if test="email!=null and email!=''">email=#{email},email_bind_time=NOW(),</if>
+            <if test="birthday!=null and birthday!=''">birthday=#{birthday},</if>
+            <if test="gender!=null">gender=#{gender},</if>
+            <if test="headPortrait!=null and headPortrait!=''">head_portrait=#{headPortrait},</if>
+            <if test="status!=null ">status=#{status}</if>
+        </set>
+        where user_id=#{userId}
+    </update>
+    <update id="updateForBindPhone" parameterType="top.thegodisgad.user.entity.User">
+        update tb_user
+        <set>
+            <if test="mobile!=null and mobile!=''">mobile=#{mobile},mobile_bind_time=NOW(),</if>
+        </set>
+        where user_id=#{userId}
+    </update>
+    <update id="updateForBindEmail" parameterType="top.thegodisgad.user.entity.User">
+        update tb_user
+        <set>
+            <if test="email!=null and email!=''">email=#{email},email_bind_time=NOW(),</if>
+        </set>
+        where user_id=#{userId}
+    </update>
+    <update id="updateInformation">
+        update tb_user
+        <set>
+            <if test="userName!=null and userName!=''">user_name=#{userName},</if>
+            <if test="nickName!=null and nickName!=''">nick_name=#{nickName},</if>
+            <if test="mobile!=null and mobile!=''">mobile=#{mobile},mobile_bind_time=NOW(),</if>
+            <if test="email!=null and email!=''">email=#{email},email_bind_time=NOW(),</if>
+            <if test="birthday!=null and birthday!=''">birthday=#{birthday},</if>
+            <if test="gender!=null">gender=#{gender},</if>
+            <if test="headPortrait!=null and headPortrait!=''">head_portrait=#{headPortrait},</if>
+            <if test="status!=null ">status=#{status}</if>
+        </set>
+        where user_id=#{userId}
+    </update>
+</mapper>

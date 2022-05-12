@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.thegodisgad.file.mapper.FileRequestLogMapper">
+
+    <resultMap id="BaseResultMap" type="top.thegodisgad.file.entity.FileRequestLog">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="fileId" column="file_id" jdbcType="BIGINT"/>
+            <result property="requestStatus" column="request_status" jdbcType="TINYINT"/>
+            <result property="requestIp" column="request_ip" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,gmt_create,gmt_modified,
+        user_id,file_id,request_status,
+        request_ip
+    </sql>
+</mapper>

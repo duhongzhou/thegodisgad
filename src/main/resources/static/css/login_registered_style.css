@@ -1,0 +1,113 @@
+/*
+*author:yhdhz
+*data:2022/5/22 23:14 31
+*file name:login_regited_style.css
+*/
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.header {
+    width: 100%;
+    height: 50px;
+    background-color: aquamarine;
+}
+
+.container {
+
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 60%;
+    height: auto;
+    background-color: #35C7ADDD;
+}
+
+.option {
+
+    margin: 10px auto;
+    position: relative;
+    top: 10px;
+    width: 60%;
+    height: 72px;
+    padding: 2px;
+    color: #000000BB;
+}
+
+.option > label {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    padding: 3px;
+    display: block;
+    width: 100%;
+    font-size: 23px;
+
+}
+
+.option ,.radio-option > label:hover {
+    /*background-color: aqua;*/
+    font-size: 25px;
+    /*text-align: center;*/
+}
+
+.option > #submit_button {
+    height: 30px;
+    font-size: 20px;
+}
+
+.option > input {
+
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    font-size: 18px;
+    border-radius: 2px;
+    width: 100%;
+    height: 25px;
+}
+
+.option input:focus {
+    height: 30px;
+}
+
+.radio-option {
+
+    height: auto;
+    margin: 10px auto;
+    position: relative;
+    top: 10px;
+    width: 60%;
+    height: 76px;
+    padding: 2px;
+    color: #000000BB;
+}
+
+.radio-option > ul {
+
+    list-style: none;
+}
+
+.radio-option > ul > li {
+    float: left;
+}
+
+.radio-option > label {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    display: block;
+    text-align: left;
+}
+
+.radio-option > input {
+
+}
+
+.footer {
+    width: 100%;
+    height: 100px;
+    background-color: aqua;
+    position: absolute;
+    bottom: 0;
+}

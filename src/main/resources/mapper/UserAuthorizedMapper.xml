@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.thegodisgad.user.mapper.UserAuthorizedMapper">
+
+    <resultMap id="BaseResultMap" type="top.thegodisgad.user.entity.UserAuthorized">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="identityType" column="identity_type" jdbcType="TINYINT"/>
+        <result property="identifier" column="identifier" jdbcType="VARCHAR"/>
+        <result property="certificate" column="certificate" jdbcType="VARCHAR"/>
+        <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,gmt_create,gmt_modified,
+        user_id,identity_type,identifier,
+        certificate,is_valid
+    </sql>
+    <sql id="Insert_Key">user_id,identity_type,identifier,certificate
+    </sql>
+    <sql id="Insert_Values">#{userId},
+    #{identityType},
+    #{identifier},
+    #{certificate}</sql>
+    <insert id="insert" parameterType="top.thegodisgad.user.entity.UserAuthorized">
+        insert into tb_user_authorized(<include refid="Insert_Key"/>)
+        values(<include refid="Insert_Values"/>)
+    </insert>
+    <sql id="Login_select">user_id,identifier,certificate</sql>
+    <select id="selectAllByIdentifier" resultType="top.thegodisgad.user.entity.UserAuthorized">
+        select
+        <include refid="Login_select"/>
+        from tb_user_authorized
+        where identifier = #{identifier} and is_valid=1
+    </select>
+    <select id="selectUserIdByIdentifier" resultType="java.lang.Long" parameterType="java.lang.String">
+        select user_id
+        from tb_user_authorized
+        where identifier=#{identifier}
+    </select>
+
+    <update id="updateCertificateByUserId">
+        update tb_user_authorized
+        set certificate=#{certificate}
+        where user_id = #{userId}
+    </update>
+    <update id="updateIsValidByUserId">
+        update tb_user_authorized
+        set is_valid=#{isValid}
+        where user_id = #{userId}
+    </update>
+
+</mapper>

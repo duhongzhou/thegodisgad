@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.thegodisgad.blog.mapper.BlogPostMapper">
+
+    <resultMap id="BaseResultMap" type="top.thegodisgad.blog.entity.BlogPost">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="parentalBlogId" column="parental_blog_id" jdbcType="BIGINT"/>
+            <result property="rootBlogId" column="root_blog_id" jdbcType="BIGINT"/>
+            <result property="blogId" column="blog_id" jdbcType="BIGINT"/>
+            <result property="subBlogNumber" column="sub_blog_number" jdbcType="OTHER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="value" column="value" jdbcType="VARCHAR"/>
+            <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
+            <result property="browseNumber" column="browse_number" jdbcType="BIGINT"/>
+            <result property="reviewerNumber" column="reviewer_number" jdbcType="BIGINT"/>
+            <result property="reviewNumber" column="review_number" jdbcType="BIGINT"/>
+            <result property="goodReview" column="good_review" jdbcType="BIGINT"/>
+            <result property="badReview" column="bad_review" jdbcType="BIGINT"/>
+            <result property="recommendedWeight" column="recommended_weight" jdbcType="DECIMAL"/>
+            <result property="isAnonymous" column="is_anonymous" jdbcType="TINYINT"/>
+            <result property="overtState" column="overt_state" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,gmt_create,gmt_modified,
+        user_id,parental_blog_id,root_blog_id,
+        blog_id,sub_blog_number,title,
+        value,is_valid,browse_number,
+        reviewer_number,review_number,good_review,
+        bad_review,recommended_weight,is_anonymous,
+        overt_state
+    </sql>
+</mapper>

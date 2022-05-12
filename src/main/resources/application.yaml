@@ -1,0 +1,50 @@
+server:
+  port: 8080
+#  servlet:
+#    multipart:
+#      enabled: true # 启用文件上传
+#      location: # 上传文件临时保存位置
+#      max-file-size: 50MB # 单个文件上传最大大小限制
+#      max-request-size: 10MB # 单次请求主体最大大小限制
+spring:
+
+  mvc:
+    format:
+      date: yyyy-MM-dd # 日期格式
+      date-time: yyyy-MM-dd HH:mm:ss # 日期时间格式
+      time: HH:mm:ss # 时间格式
+  messages:
+    encoding: UTF-8
+    basename: i18n/message
+  datasource:
+    url: jdbc:mysql://localhost:3306/thegodisgad?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    username: root        #用户名
+    password: yhdhz0916.. #密码
+    driver-class-name: com.mysql.cj.jdbc.Driver #
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html
+    mode: HTML
+    enabled: true
+  main:
+    allow-bean-definition-overriding: true
+  aop:
+    auto: true
+
+## mybatis 配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml     #扫描mybatis的实现dao接口*.xml文件
+  type-aliases-package: top.thegodisgad.*.entity #实体类取别名
+  global-config:
+    refresh-mapper: true
+    #驼峰下划线转换
+    column-underline: true
+  configuration:
+    ## 下划线转驼峰配置
+    map-underscore-to-camel-case: true
+
+

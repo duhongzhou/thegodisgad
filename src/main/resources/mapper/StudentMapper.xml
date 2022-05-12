@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.thegodisgad.school.mapper.StudentMapper">
+
+    <resultMap id="BaseResultMap" type="top.thegodisgad.school.entity.Student">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="schoolId" column="school_id" jdbcType="BIGINT"/>
+            <result property="academyId" column="academy_id" jdbcType="BIGINT"/>
+            <result property="professionalId" column="professional_id" jdbcType="BIGINT"/>
+            <result property="grade" column="grade" jdbcType="OTHER"/>
+            <result property="period" column="period" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,gmt_create,gmt_modified,
+        user_id,school_id,academy_id,
+        professional_id,grade,period
+    </sql>
+</mapper>

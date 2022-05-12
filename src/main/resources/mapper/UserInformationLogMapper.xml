@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.thegodisgad.user.mapper.UserInformationLogMapper">
+
+    <resultMap id="BaseResultMap" type="top.thegodisgad.user.entity.UserInformationLog">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="operator" column="operator" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="registerSource" column="register_source" jdbcType="TINYINT"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+        <result property="mobileBindTime" column="mobile_bind_time" jdbcType="TIMESTAMP"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="emailBindTime" column="email_bind_time" jdbcType="TIMESTAMP"/>
+        <result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+        <result property="gender" column="gender" jdbcType="TINYINT"/>
+        <result property="headPortrait" column="head_portrait" jdbcType="TINYINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="certificate" column="certificate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,gmt_create,gmt_modified,
+        operator,user_id,nick_name,register_source,
+        user_name,mobile,mobile_bind_time,
+        email,email_bind_time,birthday,
+        gender,head_portrait,status,
+        certificate
+    </sql>
+
+
+    <sql id="Simply_Key">
+        operator,user_id,
+        <trim suffixOverrides=",">
+            <if test="userName!=null and userName!=''">user_name,</if>
+            <if test="nickName!=null and nickName!=''">nick_name,</if>
+            <if test="mobile!=null and mobile!=''">mobile=,mobile_bind_time,</if>
+            <if test="email!=null and email!=''">email=,email_bind_time,</if>
+            <if test="birthday!=null and birthday!=''">birthday,</if>
+            <if test="gender!=null">gender,</if>
+            <if test="headPortrait!=null and headPortrait!=''">head_portrait,</if>
+            <if test="status!=null ">status</if>
+            <if test="certificate!=null and certificate!=''">certificate</if>
+        </trim>
+    </sql>
+    <sql id="Simply_Values">
+        #{operator},#{userId},
+        <trim suffixOverrides=",">
+            <if test="userName!=null and userName!=''">#{userName},</if>
+            <if test="nickName!=null and nickName!=''">#{nickName},</if>
+            <if test="mobile!=null and mobile!=''">#{mobile},NOW(),</if>
+            <if test="email!=null and email!=''">#{email},NOW(),</if>
+            <if test="birthday!=null and birthday!=''">#{birthday},</if>
+            <if test="gender!=null">#{gender},</if>
+            <if test="headPortrait!=null and headPortrait!=''">#{headPortrait},</if>
+            <if test="status!=null ">#{status}</if>
+            <if test="certificate!=null and certificate!=''">#{certificate}</if>
+        </trim>
+    </sql>
+    <insert id="insert" parameterType="top.thegodisgad.user.entity.UserInformationLog">
+        insert into tb_user_information_log(<include refid="Simply_Key"/>)
+        values(<include refid="Simply_Values"/>)
+    </insert>
+    <select id="selectByUserIdForCertificate" resultType="java.lang.String" parameterType="java.lang.Long">
+        select certificate
+        from tb_user_information_log
+        where user_id=#{userId} and certificate!=null
+    </select>
+
+</mapper>

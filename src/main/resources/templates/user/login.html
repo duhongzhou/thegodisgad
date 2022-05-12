@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/login_registered_style.css">
+</head>
+<body>
+<div class="header"></div>
+<div class="container">
+    <form action="/api/user/login" method="get">
+        <div class="option">
+            <label for="identifier" th:text="#{user.account}">账号</label>
+            <input type="text" name="identifier" id="identifier">
+        </div>
+        <div class="option">
+            <label for="certificate">密码</label>
+            <input type="password" name="certificate" id="certificate">
+        </div>
+            <div class="option">
+                <input type="submit" value="登录" id="submit_button">
+            </div>
+    </form>
+</div>
+<div class="footer"></div>
+</body>
+</html>

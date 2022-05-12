@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en_US">
+
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="/css/login_registered_style.css">
+</head>
+
+<body>
+
+<div class="header"></div>
+<div class="container">
+    <form action="/api/user/registered" method="get">
+        <div class="option">
+            <label for="userName" th:text="#{user.account}"></label>
+            <input type="text" name="userName" id="userName">
+        </div>
+        <div class="option">
+            <label for="nickName" th:text="#{user.nick_name}"></label>
+            <input type="text" name="nickName" id="nickName">
+        </div>
+        <div class="option">
+            <label for="certificate" th:text="#{user.certificate}"></label>
+            <input type="password" name="certificate" id="certificate">
+        </div>
+        <div class="option">
+            <label for="birthday" th:text="#{user.birthday}"></label>
+            <input type="date" name="birthday" id="birthday">
+        </div>
+        <div class="radio-option">
+            <label th:text="#{user.gender}" id="title"></label>
+            <ul>
+                <li><label for="boy" th:text="#{user.boy}"></label>
+                    <input type="radio" name="gender" id="boy" value="1"></li>
+                <li><label for="boy" th:text="#{user.girl}"></label>
+                    <input type="radio" name="gender" id="girl" value="0"></li>
+            </ul>
+        </div>
+
+        <div class="option">
+            <input type="submit" value="登录" id="submit_button">
+        </div>
+
+    </form>
+</div>
+<div class="footer"></div>
+
+</body>
+
+</html>

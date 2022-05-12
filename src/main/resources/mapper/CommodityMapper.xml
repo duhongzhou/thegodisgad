@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.thegodisgad.commodity.mapper.CommodityMapper">
+
+    <resultMap id="BaseResultMap" type="top.thegodisgad.commodity.entity.Commodity">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="commodityId" column="commodity_id" jdbcType="BIGINT"/>
+            <result property="blogId" column="blog_id" jdbcType="BIGINT"/>
+            <result property="commodityName" column="commodity_name" jdbcType="VARCHAR"/>
+            <result property="commodityStatus" column="commodity_status" jdbcType="TINYINT"/>
+            <result property="commodityType" column="commodity_type" jdbcType="TINYINT"/>
+            <result property="commodityCode" column="commodity_code" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="inventoryNumber" column="inventory_number" jdbcType="OTHER"/>
+            <result property="wantNumber" column="want_number" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,gmt_create,gmt_modified,
+        user_id,commodity_id,blog_id,
+        commodity_name,commodity_status,commodity_type,
+        commodity_code,price,inventory_number,
+        want_number
+    </sql>
+</mapper>
