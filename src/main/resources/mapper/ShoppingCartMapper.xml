@@ -5,13 +5,13 @@
 <mapper namespace="top.thegodisgad.commodity.mapper.ShoppingCartMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.commodity.entity.ShoppingCart">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="commodityId" column="commodity_id" jdbcType="BIGINT"/>
-            <result property="number" column="number" jdbcType="OTHER"/>
-            <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="commodityId" column="commodity_id" jdbcType="BIGINT"/>
+        <result property="number" column="number" jdbcType="OTHER"/>
+        <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -19,4 +19,25 @@
         user_id,commodity_id,number,
         is_valid
     </sql>
+    <insert id="insert">
+        insert into tb_shopping_cart(user_id, commodity_id, number,
+                                     is_valid)
+        values (#{userId}, #{commodityId}, #{number},
+                #{isValid})
+    </insert>
+    <update id="updateIsValidByCommodityIdAndUserId">
+        update tb_shopping_cart
+        set is_valid=#{isValid}
+        where user_id=#{userId} and commodity_id=#{commodityId}
+    </update>
+    <select id="selectByUserId" resultType="top.thegodisgad.commodity.entity.ShoppingCart" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from tb_shopping_cart
+        where user_id=#{userId} and is_valid=1
+    </select>
+    <select id="selectByCommodityIdAndUserId" resultType="top.thegodisgad.commodity.entity.ShoppingCart">
+        select <include refid="Base_Column_List"/>
+        from tb_shopping_cart
+        where user_id=#{userId} and commodity_id=#{commodityId]
+    </select>
 </mapper>

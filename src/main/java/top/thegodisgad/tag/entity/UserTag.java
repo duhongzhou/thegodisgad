@@ -1,8 +1,9 @@
 package top.thegodisgad.tag.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 拥有的标签(所有标签)

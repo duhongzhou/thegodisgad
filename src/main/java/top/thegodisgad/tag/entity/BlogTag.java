@@ -1,8 +1,11 @@
 package top.thegodisgad.tag.entity;
 
+import lombok.Data;
+import top.thegodisgad.tag.group.TagGroup;
+
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 拥有的标签(所有标签)
@@ -28,11 +31,14 @@ public class BlogTag implements Serializable {
     /**
      * 拥有者标识
      */
+    @NotBlank(groups = {TagGroup.Add.class},message = "博客id不能为空")
+    @NotBlank(groups = {TagGroup.Delete.class},message = "博客id不能为空")
     private Long blogId;
 
     /**
      * 标签标识
      */
+    @NotBlank(groups = {TagGroup.Delete.class},message = "标签id不能为空")
     private Long tagId;
 
     /**

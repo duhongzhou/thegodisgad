@@ -38,8 +38,8 @@
         <trim suffixOverrides=",">
             <if test="userName!=null and userName!=''">user_name,</if>
             <if test="nickName!=null and nickName!=''">nick_name,</if>
-            <if test="mobile!=null and mobile!=''">mobile=,mobile_bind_time,</if>
-            <if test="email!=null and email!=''">email=,email_bind_time,</if>
+            <if test="mobile!=null and mobile!=''">mobile,mobile_bind_time,</if>
+            <if test="email!=null and email!=''">email,email_bind_time,</if>
             <if test="birthday!=null and birthday!=''">birthday,</if>
             <if test="gender!=null">gender,</if>
             <if test="headPortrait!=null and headPortrait!=''">head_portrait,</if>
@@ -68,7 +68,8 @@
     <select id="selectByUserIdForCertificate" resultType="java.lang.String" parameterType="java.lang.Long">
         select certificate
         from tb_user_information_log
-        where user_id=#{userId} and certificate!=null
+        where user_id = #{userId}
+          and certificate != null
     </select>
 
 </mapper>

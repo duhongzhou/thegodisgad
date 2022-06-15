@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<form action="/api/message/" method="post" id="message">
+
+<input type="hidden" value="5745471525462229091" name="sender" id="sender">
+<input type="hidden" value="8435743811115369281" name="accepter" id="accepter">
+    <input type="text" name="value" id="value">
+    <input type="button" onclick="login()" value="发送">
+</form>
+
+</body>
+</html>
+<script type="text/javascript">
+
+    function login() {
+        var sender = $("#sender").val();
+        var accepter = $("#accepter").val();
+        var value = $("#value").val();
+
+        console.log($("#message").serialize());
+        $.ajax({
+                url: "/api/message/send",
+                type: "POST",
+                data: JSON.stringify({sender:sender,accepter:accepter,value:value}),
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    alert(JSON.stringify(data));
+                    alert(data);
+                },
+                error: function (data) {
+                    alert(JSON.stringify(data));
+                    console.log(data);
+                    alert(data.message);
+                }
+            }
+        );
+    }
+</script>

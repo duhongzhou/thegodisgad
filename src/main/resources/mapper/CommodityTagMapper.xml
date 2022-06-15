@@ -17,4 +17,22 @@
         id,gmt_create,gmt_modified,
         commodity_id,tag_id,is_valid
     </sql>
+    <insert id="insert" parameterType="top.thegodisgad.tag.entity.CommodityTag">
+        insert into tb_commodity_tag(commodity_id,tag_id) values(#{commodityId},#{tagId})
+    </insert>
+    <select id="selectByCommodityId" resultType="top.thegodisgad.tag.entity.CommodityTag">
+        select <include refid="Base_Column_List"/>
+        from tb_commodity_tag
+        where commodity_id=#{commodityId} and is_valid=1
+    </select>
+    <select id="selectByTagId" resultType="top.thegodisgad.tag.entity.CommodityTag">
+        select <include refid="Base_Column_List"/>
+        from tb_commodity_tag
+        where tag_id=#{tagId} and is_valid=1
+    </select>
+    <update id="delete">
+        update tb_commodity_tag
+        set is_valid=0
+        where commodity_id=#{commodityId} and tag_id=#{tagId}
+    </update>
 </mapper>

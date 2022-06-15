@@ -14,10 +14,7 @@ public class ThegodisgadApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ThegodisgadApplication.class, args);
-//        ConfigurableApplicationContext context= SpringApplication.run(ThegodisgadApplication.class);
 
-//        Hello hello=context.getBean(Hello.class);
-//        hello.hello();
 
     }
 

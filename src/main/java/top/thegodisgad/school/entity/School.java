@@ -1,8 +1,9 @@
 package top.thegodisgad.school.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 学校
@@ -29,7 +30,10 @@ public class School implements Serializable {
      * 学校标识
      */
     private Long schoolId;
-
+    /**
+     * school_prefix
+     */
+    private String schoolPrefix;
     /**
      * 学校名称
      */

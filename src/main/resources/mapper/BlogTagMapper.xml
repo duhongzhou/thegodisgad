@@ -17,4 +17,22 @@
         id,gmt_create,gmt_modified,
         blog_id,tag_id,is_valid
     </sql>
+    <insert id="insert" parameterType="top.thegodisgad.tag.entity.BlogTag">
+        insert into tb_blog_tag(blog_id,tag_id) values(#{userId},#{tagId})
+    </insert>
+    <select id="selectByBlogId" resultType="top.thegodisgad.tag.entity.BlogTag">
+        select <include refid="Base_Column_List"/>
+        from tb_blog_tag
+        where blog_id=#{blogId} and is_valid=1
+    </select>
+    <select id="selectByTagId" resultType="top.thegodisgad.tag.entity.BlogTag">
+        select <include refid="Base_Column_List"/>
+        from tb_blog_tag
+        where tag_id=#{tagId} and is_valid=1
+    </select>
+    <update id="delete">
+        update tb_blog_tag
+        set is_valid=0
+        where blog_id=#{blogId} and tag_id=#{tagId}
+    </update>
 </mapper>

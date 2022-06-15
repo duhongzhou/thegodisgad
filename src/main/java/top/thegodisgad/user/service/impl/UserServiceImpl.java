@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import top.thegodisgad.user.entity.User;
 import top.thegodisgad.user.entity.UserAuthorized;
 import top.thegodisgad.user.exception.UserException;
+import top.thegodisgad.user.exception.UserExceptionEnum;
 import top.thegodisgad.user.mapper.UserMapper;
 import top.thegodisgad.user.service.UserAuthorizedService;
 import top.thegodisgad.user.service.UserService;
@@ -30,12 +31,9 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
-
     /**
-     * @param userAuthorized
      * @return boolean
-     * @description: TODO:登录
+     * @description: 登录
      * @author 杜洪洲
      * @date 2022/5/19 20:16
      * @throw UserException
@@ -43,14 +41,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long login(UserAuthorized userAuthorized, HttpServletRequest request) throws UserException {
-        Long login = userAuthorizedService.login(userAuthorized,request);
+        Long login = userAuthorizedService.login(userAuthorized, request);
 
         return login;
     }
 
 
     /**
-     * @param user
      * @return boolean
      * @description: 修改信息
      * @author 杜洪洲
@@ -67,7 +64,6 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * @param user
      * @return boolean
      * @description: 绑定手机
      * @author 杜洪洲
@@ -84,7 +80,6 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * @param user
      * @return boolean
      * @description: 绑定邮箱
      * @author 杜洪洲
@@ -100,7 +95,6 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * @param user
      * @return java.util.List<top.thegodisgad.user.entity.User>
      * @description: 查找用户
      * @author 杜洪洲
@@ -113,10 +107,16 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectUsers(user);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<User> findByUserIds(List<Long> userIds) {
+        List<User> users = userMapper.selectByUserIds(userIds);
+        return users;
+    }
+
     /**
-     * @param user
      * @return boolean
-     * @description: TODO:this is to do
+     * @description: this is to do
      * @author 杜洪洲
      * @date 2022/5/19 20:26
      * @throw
@@ -126,14 +126,14 @@ public class UserServiceImpl implements UserService {
         int i = userMapper.updateForLogout(user);
         return 1 == i;
     }
+
     /**
      * itExists
      *
+     * @return boolean
      * @author 杜洪洲
      * @description: itExists
      * @date 2022/5/23 17:13
-     * @param userId
-     * @return boolean
      * @throw
      */
     @Override
@@ -157,13 +157,34 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long registered(User user) throws UserException{
+    public Long registered(User user) throws UserException {
+        User user1 = userMapper.selectByUserName(user.getUserName());
+        if (user1 != null) {
+            throw new UserException(UserExceptionEnum.USER_EXISTENT);
+        }
         user.registered();
         int i = userMapper.insertUser(user);
         return user.getUserId();
     }
 
+    /**
+     * @param userId
+     * @return
+     */
+    @Override
+    public User selectUserId(Long userId) {
+        return userMapper.selectByUserId(userId);
+    }
 
+    /**
+     * @param userId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean registeredOut(Long userId) {
+        return userMapper.deleteByUserId(userId) == 1;
+    }
 }
 
 

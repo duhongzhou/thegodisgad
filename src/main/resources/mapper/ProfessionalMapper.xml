@@ -5,16 +5,16 @@
 <mapper namespace="top.thegodisgad.school.mapper.ProfessionalMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.school.entity.Professional">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="professionalId" column="professional_id" jdbcType="BIGINT"/>
-            <result property="professionalCategory" column="professional_category" jdbcType="VARCHAR"/>
-            <result property="professionalClass" column="professional_class" jdbcType="VARCHAR"/>
-            <result property="professionalCode" column="professional_code" jdbcType="VARCHAR"/>
-            <result property="professionalName" column="professional_name" jdbcType="VARCHAR"/>
-            <result property="degreeAwardingCategory" column="degree_awarding_category" jdbcType="VARCHAR"/>
-            <result property="schoolingLength" column="schooling_length" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="professionalId" column="professional_id" jdbcType="BIGINT"/>
+        <result property="professionalCategory" column="professional_category" jdbcType="VARCHAR"/>
+        <result property="professionalClass" column="professional_class" jdbcType="VARCHAR"/>
+        <result property="professionalCode" column="professional_code" jdbcType="VARCHAR"/>
+        <result property="professionalName" column="professional_name" jdbcType="VARCHAR"/>
+        <result property="degreeAwardingCategory" column="degree_awarding_category" jdbcType="VARCHAR"/>
+        <result property="schoolingLength" column="schooling_length" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -23,4 +23,52 @@
         professional_code,professional_name,degree_awarding_category,
         schooling_length
     </sql>
+    <insert id="insert" parameterType="top.thegodisgad.school.entity.Professional">
+        insert into tb_professional(professional_id, professional_category, professional_class,
+                                    professional_code, professional_name, degree_awarding_category,
+                                    schooling_length)
+        values (#{professionalId}, #{professionalCategory}, #{professionalClass},
+                #{professionalCode}, #{professionalName}, #{degreeAwardingCategory},
+                #{schoolingLength})
+
+    </insert>
+    <update id="update" parameterType="top.thegodisgad.school.entity.Professional">
+        update tb_professional
+        <set>
+            <if test="professionalCategory!=null">professional_category= #{professionalCategory},</if>
+            <if test="professionalClass!=null">professional_class= #{professionalClass},</if>
+            <if test="professionalCode!=null">professional_code= #{professionalCode},</if>
+            <if test="professionalName!=null">professional_name= #{professionalName},</if>
+            <if test="degreeAwardingCategory!=null">degree_awarding_category= #{degreeAwardingCategory},</if>
+            <if test="schoolingLength!=null">schooling_lengt= #{schoolingLength}</if>
+        </set>
+        where professional_id#{professionalId}
+    </update>
+    <delete id="deleteByProfessionalId">
+        delete
+        from tb_professional
+        where professional_id = #{professionalId}
+    </delete>
+
+    <select id="selectAllByProfessionalId" resultType="top.thegodisgad.school.entity.Professional"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_professional
+        where professional_id=#{professionalId}
+    </select>
+    <select id="selectAll" resultType="top.thegodisgad.school.entity.Professional" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_professional
+    </select>
+    <select id="selectByProfessionalIds" resultType="top.thegodisgad.school.entity.Professional">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_professional
+        where professional_id in
+        <foreach collection="list" item="professionalId" open="(" close=")" separator=",">
+            #{professionalId}
+        </foreach>
+    </select>
 </mapper>

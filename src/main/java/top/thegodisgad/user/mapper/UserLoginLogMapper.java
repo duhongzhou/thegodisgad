@@ -21,7 +21,6 @@ public interface UserLoginLogMapper  {
      * @author 杜洪洲
      * @description: TODO:insert
      * @date 2022/5/23 13:07
-     * @param userLoginLog
      * @return int
      * @throw
      */

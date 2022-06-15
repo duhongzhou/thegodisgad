@@ -5,13 +5,13 @@
 <mapper namespace="top.thegodisgad.blog.mapper.BlogOperationMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.blog.entity.BlogOperation">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="blogId" column="blog_id" jdbcType="BIGINT"/>
-            <result property="operationType" column="operation_type" jdbcType="TINYINT"/>
-            <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="blogId" column="blog_id" jdbcType="BIGINT"/>
+        <result property="operationType" column="operation_type" jdbcType="TINYINT"/>
+        <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -19,4 +19,38 @@
         user_id,blog_id,operation_type,
         is_valid
     </sql>
+    <insert id="insertAll">
+        insert into tb_blog_operation(user_id, blog_id, operation_type)
+        values (#{userId}, #{blogId}, #{operationType})
+    </insert>
+    <update id="updateOperationTypeByUserIdAndBlogIdInt">
+        update tb_blog_operation
+        <set>
+            <if test="operationType!=null">operation_type=#{operationType},</if>
+            <if test="isValid!=null">is_valid=#{isValid}</if>
+        </set>
+        where user_id = #{userId}
+        and blog_id = #{blogId} and operation_type=#{oldOperationType}
+    </update>
+
+    <select id="selectByBlogIdBlogOperations" resultType="java.lang.Integer">
+        select count(id)
+        from tb_blog_operation
+        where blog_id = #{blogId}
+          and operation_type = #{operationType}
+          and is_valid = 1
+    </select>
+    <select id="selectByUserIdAndBlogIdBlogOperation" resultType="top.thegodisgad.blog.entity.BlogOperation">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_blog_operation
+        where blog_id=#{blogId} and blog_id= #{blogId} and operation_type!=1 and is_valid=1
+    </select>
+    <select id="selectByUserIdBlogOperations" resultType="java.lang.Long">
+        select blog_id
+        from tb_blog_operation
+        where user_id = #{userId}
+          and is_valid = 1
+    </select>
+
 </mapper>

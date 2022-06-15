@@ -21,11 +21,9 @@ public interface MessageService {
     /**
      * sendMessage
      *
-     * @param message
      * @return boolean
-     * @throws
      * @author 杜洪洲
-     * @description: TODO:sendMessage
+     * @description: sendMessage
      * @date 2022/5/24 20:51
      */
     public boolean sendMessage(Message message) throws SQLIntegrityConstraintViolationException;
@@ -37,22 +35,17 @@ public interface MessageService {
      * findMessages
      *
      * @author 杜洪洲
-     * @description: TODO:findMessages
+     * @description: findMessages
      * @date 2022/5/24 20:54
-     * @param userId
      * @return java.util.List<top.thegodisgad.user.entity.Message>
-     * @throws
      */
     public List<Message> findMessages(Long userId);
     /**
      * read
      *
      * @author 杜洪洲
-     * @description: TODO:read
+     * @description: read
      * @date 2022/5/24 22:08
-     * @param messageIds
-     * @return void
-     * @throws
      */
     void read(Long userId, List<Long> messageIds);
     /*--------------------------------------------------------*/

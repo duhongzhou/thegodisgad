@@ -20,13 +20,12 @@ public class UserUtils {
      * @return Long
      */
     public static Long createId() {
-        return Math.abs(UUID.randomUUID().getMostSignificantBits());
+        return Math.abs(UUID.randomUUID().getMostSignificantBits()) / 10000;
     }
 
     /**
-     * @param id
      * @return java.lang.String
-     * @description: 返回由id创建的名称,id 为null 或等于0时会从新创建一个id
+     * @description: 返回由id创建的名称, id 为null 或等于0时会从新创建一个id
      * @author 杜洪洲
      * @date 2022/5/22 14:06
      * @throw
@@ -58,12 +57,12 @@ public class UserUtils {
      * @param map 建议这样做不要传null
      * @return Map<Long, String>
      */
-    public static Map<Long, String> createIdAndName( Map<Long, String> map) {
-        if(map.isEmpty()||map==null){
+    public static Map<Long, String> createIdAndName(Map<Long, String> map) {
+        if (map.isEmpty()) {
             map = new HashMap<>(1);
         }
 
-        while(true) {
+        while (true) {
             Long id = createId();
             String name = creatName(id);
             if (map.put(id, name) != null) {

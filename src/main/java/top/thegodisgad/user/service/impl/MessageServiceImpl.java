@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class MessageServiceImpl 
     implements MessageService{
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final MessageMapper messageMapper;
     private final UserService userService;
     @Autowired

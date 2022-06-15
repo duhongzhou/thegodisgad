@@ -19,17 +19,16 @@ public interface UserMapper {
     /*--------------------------------------------------------*/
 
     /**
-     * @param userId
-     * @return
+     *
      */
     public User selectByUserId(@Param("userId") Long userId);
-    /*--------------------------------------------------------*/
 
+    /*--------------------------------------------------------*/
+    public List<User> selectByUserIds(List<Long> userIds);
     /*--------------------------------------------------------*/
 
     /**
-     * @param user
-     * @return
+     *
      */
     public List<User> selectUsers(User user);
     /*--------------------------------------------------------*/
@@ -38,58 +37,48 @@ public interface UserMapper {
 
     /**
      * 插入用户
-     *
-     * @param user
-     * @return
      */
-    public int insertUser( User user);
+    public int insertUser(User user);
     /*--------------------------------------------------------*/
 
     /*--------------------------------------------------------*/
 
     /**
      * 注销
-     *
-     * @param user
-     * @return
      */
-    public int updateForLogout( User user);
+    public int updateForLogout(User user);
     /*--------------------------------------------------------*/
     /*--------------------------------------------------------*/
 
     /**
      * 修改信息
-     *
-     * @param user
-     * @return
      */
-    public int updateForEditInformation( User user);
+    public int updateForEditInformation(User user);
     /*--------------------------------------------------------*/
     /*--------------------------------------------------------*/
 
     /**
      * 绑定手机
-     *
-     * @param user
-     * @return
      */
-    public int updateForBindPhone( User user);
+    public int updateForBindPhone(User user);
     /*--------------------------------------------------------*/
 
     /*--------------------------------------------------------*/
 
     /**
      * 绑定邮箱
-     *
-     * @param user
-     * @return
      */
-    public int updateForBindEmail( User user);
+    public int updateForBindEmail(User user);
     /*--------------------------------------------------------*/
 
     /*--------------------------------------------------------*/
 
     public int updateInformation(User user);
+
+    User selectByUserName(@Param(value = "userName") String userName);
+
+    int deleteByUserId(@Param(value = "userId") Long userId);
+
     /*--------------------------------------------------------*/
 }
 

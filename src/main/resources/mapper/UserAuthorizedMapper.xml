@@ -30,6 +30,11 @@
         insert into tb_user_authorized(<include refid="Insert_Key"/>)
         values(<include refid="Insert_Values"/>)
     </insert>
+    <delete id="deletByUserId">
+        delete
+        from tb_user_authorized
+        where user_id = #{userId}
+    </delete>
     <sql id="Login_select">user_id,identifier,certificate</sql>
     <select id="selectAllByIdentifier" resultType="top.thegodisgad.user.entity.UserAuthorized">
         select
@@ -40,7 +45,15 @@
     <select id="selectUserIdByIdentifier" resultType="java.lang.Long" parameterType="java.lang.String">
         select user_id
         from tb_user_authorized
-        where identifier=#{identifier}
+        where identifier = #{identifier}
+    </select>
+    <select id="selectCertificateByUserId" resultType="top.thegodisgad.user.entity.UserAuthorized">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user_authorized
+        where user_id = #{userId}
+        limit 1
+
     </select>
 
     <update id="updateCertificateByUserId">

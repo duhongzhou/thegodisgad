@@ -53,7 +53,10 @@ public class UserAuthorized implements Serializable {
      * 是有效的
      */
     private Integer isValid;
-
+    /**
+     * 验证码
+     */
+    private String code;
 
     private static final long serialVersionUID = 1L;
 }

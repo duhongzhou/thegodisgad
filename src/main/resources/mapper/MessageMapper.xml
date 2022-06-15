@@ -57,8 +57,8 @@
     <update id="updateForIsReadByMessageId">
         update tb_message
         set is_read=1
-        where  tb_message.accepter=#{accpter} and sender in
-        <foreach collection="list" item="sender" open="(" close=")">
+        where tb_message.accepter=#{accpter} and sender in
+        <foreach collection="list" item="sender" open="(" close=")" separator=",">
             #{sender}
         </foreach>
     </update>

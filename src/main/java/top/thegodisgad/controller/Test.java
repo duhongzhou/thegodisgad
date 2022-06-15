@@ -22,7 +22,7 @@ public class Test {
     @GetMapping(value = "/test1")
     public void test1(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter writer = response.getWriter();
-        String ip = RequestUtil.getIP(request);
+        String ip = RequestUtil.getIp(request);
         writer.println(ip);
     }
     @GetMapping(value = "/testID")

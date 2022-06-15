@@ -11,9 +11,6 @@ public class Response {
     }
     /**
      * 默认成功构造函数
-     * @param code
-     * @param message
-     * @param result
      */
     public Response(String code, String message, Object result) {
         this.code = code;
@@ -23,7 +20,6 @@ public class Response {
 
     /**
      *
-     * @param result
      */
     public Response(Object result) {
         this.result = result;
@@ -32,8 +28,6 @@ public class Response {
 
     /**
      * 请求成功
-     * @param result
-     * @return
      */
     public static Response succeed(Object result){
         Response response = new Response(result);
@@ -47,8 +41,6 @@ public class Response {
      *
      * @author 杜洪洲
      * @date 2022/5/22 15:11
-     * @param result
-     * @param message
      * @return top.thegodisgad.vo.response.Response
      * @throw
      */
@@ -61,8 +53,6 @@ public class Response {
     }
     /**
      * 请求失败
-     * @param baseExceptionInfoGet
-     * @return
      */
     public static Response failed(BaseExceptionInfoGet baseExceptionInfoGet){
         Response response = new Response();

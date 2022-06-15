@@ -5,23 +5,73 @@
 <mapper namespace="top.thegodisgad.school.mapper.SchoolMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.school.entity.School">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="schoolId" column="school_id" jdbcType="BIGINT"/>
-            <result property="schoolName" column="school_name" jdbcType="VARCHAR"/>
-            <result property="schoolCode" column="school_code" jdbcType="VARCHAR"/>
-            <result property="competentDepartment" column="competent_department" jdbcType="VARCHAR"/>
-            <result property="provincesCities" column="provinces_cities" jdbcType="VARCHAR"/>
-            <result property="location" column="location" jdbcType="VARCHAR"/>
-            <result property="educationLevel" column="education_level" jdbcType="VARCHAR"/>
-            <result property="note" column="note" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="schoolId" column="school_id" jdbcType="BIGINT"/>
+        <result property="schoolName" column="school_name" jdbcType="VARCHAR"/>
+        <result property="schoolCode" column="school_code" jdbcType="VARCHAR"/>
+        <result property="competentDepartment" column="competent_department" jdbcType="VARCHAR"/>
+        <result property="provincesCities" column="provinces_cities" jdbcType="VARCHAR"/>
+        <result property="location" column="location" jdbcType="VARCHAR"/>
+        <result property="educationLevel" column="education_level" jdbcType="VARCHAR"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,gmt_create,gmt_modified,
-        school_id,school_name,school_code,
+        school_id,school_prefix,school_name,school_code,
         competent_department,provinces_cities,location,
         education_level,note
     </sql>
+    <insert id="insert">
+        insert into tb_school(school_id, school_prefix,school_name, school_code,
+                              competent_department, provinces_cities, location,
+                              education_level, note)
+        values (#{schoolId},#{schoolPrefix}, #{schoolName}, #{schoolCode},
+                #{competentDepartment}, #{provincesCities}, #{location},
+                #{educationLevel}, #{note})
+    </insert>
+    <update id="update">
+        update tb_school
+        <set>
+            <if test="schoolId!=null"> school_id=#{schoolId},</if>
+            <if test="schoolPrefix!=null"> school_prefix=#{schoolPrefix},</if>
+            <if test="schoolName!=null"> school_name=#{schoolName},</if>
+            <if test="schoolCode!=null"> school_code=#{schoolCode},</if>
+            <if test="competentDepartment!=null"> competent_department=#{competentDepartment},</if>
+            <if test="provincesCities!=null"> provinces_cities=#{provincesCities},</if>
+            <if test="location!=null"> location=#{location},</if>
+            <if test="educationLevel!=null"> education_level=#{educationLevel},</if>
+            <if test="note!=null"> note=#{note}</if>
+        </set>
+        where school_id=#{schoolId}
+    </update>
+    <delete id="delete">
+        delete
+        from tb_school
+        where school_id = #{schoolId}
+    </delete>
+    <select id="select" resultType="top.thegodisgad.school.entity.School">
+        select <include refid="Base_Column_List"/>
+        from tb_school
+        <where>
+            <if test="schoolId!=null"> and school_id=#{schoolId},</if>
+            <if test="schoolName!=null"> and school_name=#{schoolName},</if>
+            <if test="schoolCode!=null"> and school_code=#{schoolCode},</if>
+            <if test="competentDepartment!=null"> and competent_department=#{competentDepartment},</if>
+            <if test="provincesCities!=null">and  provinces_cities=#{provincesCities},</if>
+            <if test="location!=null">and  location=#{location},</if>
+            <if test="educationLevel!=null"> and education_level=#{educationLevel},</if>
+        </where>
+    </select>
+    <select id="selectBySchoolId" resultType="top.thegodisgad.school.entity.School">
+        select <include refid="Base_Column_List"/>
+        from tb_school
+        where school_id=#{schoolId}
+    </select>
+    <select id="selectAll" resultType="top.thegodisgad.school.entity.School">
+        select <include refid="Base_Column_List"/>
+        from tb_school
+    </select>
 </mapper>

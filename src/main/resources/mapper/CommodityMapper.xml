@@ -5,19 +5,19 @@
 <mapper namespace="top.thegodisgad.commodity.mapper.CommodityMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.commodity.entity.Commodity">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="commodityId" column="commodity_id" jdbcType="BIGINT"/>
-            <result property="blogId" column="blog_id" jdbcType="BIGINT"/>
-            <result property="commodityName" column="commodity_name" jdbcType="VARCHAR"/>
-            <result property="commodityStatus" column="commodity_status" jdbcType="TINYINT"/>
-            <result property="commodityType" column="commodity_type" jdbcType="TINYINT"/>
-            <result property="commodityCode" column="commodity_code" jdbcType="VARCHAR"/>
-            <result property="price" column="price" jdbcType="DECIMAL"/>
-            <result property="inventoryNumber" column="inventory_number" jdbcType="OTHER"/>
-            <result property="wantNumber" column="want_number" jdbcType="OTHER"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="commodityId" column="commodity_id" jdbcType="BIGINT"/>
+        <result property="blogId" column="blog_id" jdbcType="BIGINT"/>
+        <result property="commodityName" column="commodity_name" jdbcType="VARCHAR"/>
+        <result property="commodityStatus" column="commodity_status" jdbcType="TINYINT"/>
+        <result property="commodityType" column="commodity_type" jdbcType="TINYINT"/>
+        <result property="commodityCode" column="commodity_code" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
+        <result property="inventoryNumber" column="inventory_number" jdbcType="OTHER"/>
+        <result property="wantNumber" column="want_number" jdbcType="OTHER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -27,4 +27,46 @@
         commodity_code,price,inventory_number,
         want_number
     </sql>
+    <insert id="insert">
+        insert into tb_commodity(user_id, commodity_id, blog_id,
+                                 commodity_name, commodity_status, commodity_type,
+                                 commodity_code, price, inventory_number,
+                                 want_number)
+        values (#{userId}, #{commodityId}, #{blogId},
+                #{commodityName}, #{commodityStatus}, #{commodityType},
+                #{commodityCode}, #{price}, #{inventoryNumber},
+                #{wantNumber})
+
+    </insert>
+    <update id="updateCommodityStatusByCommodityId">
+        update tb_commodity
+        set commodity_status=#{commodityStatus}
+        where commodity_id = #{commodityId}
+    </update>
+    <update id="update" parameterType="top.thegodisgad.commodity.entity.Commodity">
+        update tb_commodity
+        <set>
+            <if test="blogId!=null">blog_id= #{blogId},</if>
+            <if test="commodityName!=null">commodity_name= #{commodityName},</if>
+            <if test="commodityType!=null">commodity_type= #{commodityType},</if>
+            <if test="commodityCode!=null">commodity_code= #{commodityCode},</if>
+            <if test="price!=null">price= #{price},</if>
+            <if test="inventoryNumber!=null">inventory_number= #{inventoryNumber}</if>
+        </set>
+        where commodity_id= #{commodityId}
+    </update>
+    <select id="select" resultType="top.thegodisgad.commodity.entity.Commodity">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_commodity
+        where commodity_status=1
+        order by gmt_create desc
+        limit #{start},#{length}
+    </select>
+    <select id="selectByUserId" resultType="top.thegodisgad.commodity.entity.Commodity">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_commodity
+        where user_id=#{userId}
+    </select>
 </mapper>

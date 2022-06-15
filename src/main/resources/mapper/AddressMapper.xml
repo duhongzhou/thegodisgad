@@ -5,22 +5,65 @@
 <mapper namespace="top.thegodisgad.address.mapper.AddressMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.address.entity.Address">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="addressId" column="address_id" jdbcType="BIGINT"/>
-            <result property="country" column="country" jdbcType="VARCHAR"/>
-            <result property="province" column="province" jdbcType="VARCHAR"/>
-            <result property="city" column="city" jdbcType="VARCHAR"/>
-            <result property="county" column="county" jdbcType="VARCHAR"/>
-            <result property="town" column="town" jdbcType="VARCHAR"/>
-            <result property="detailedAddress" column="detailed_address" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="country" column="country" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="county" column="county" jdbcType="VARCHAR"/>
+        <result property="street" column="town" jdbcType="VARCHAR"/>
+        <result property="detailedAddress" column="detailed_address" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,gmt_create,gmt_modified,
-        address_id,country,province,
-        city,county,town,
+        user_id,country,province,
+        city,county,street,
         detailed_address
     </sql>
+    <insert id="insertAll" parameterType="top.thegodisgad.address.entity.Address">
+        insert into tb_address(user_id, province,
+                               city, county, street,
+                               detailed_address)
+        values (#{userId}, #{province}, #{city}, #{county}, #{street},
+                #{detailedAddress})
+
+    </insert>
+    <delete id="delete">
+        update tb_address
+        set is_valid=0
+        <where>
+            is_valid=1
+            <if test="userId!=null">and user_id= #{userId}</if>
+            <if test="country!=null and country!=''">and country= #{country}</if>
+            <if test="province!=null">and province= #{province}</if>
+            <if test="city!=null">and city= #{city}</if>
+            <if test="county!=null">and county= #{county}</if>
+            <if test="street!=null">and street= #{street}</if>
+            <if test="detailedAddress!=null">and detailed_address= #{detailedAddress}</if>
+        </where>
+    </delete>
+    <select id="selectByUserIdAddresses" resultType="top.thegodisgad.address.entity.Address">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_address
+        where user_id=#{userId} and is_valid=1
+    </select>
+    <select id="selectAll" resultType="top.thegodisgad.address.entity.Address" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_address
+        <where>
+            is_valid=1
+            <if test="userId!=null">and user_id= #{userId}</if>
+            <if test="country!=null">and country= #{country}</if>
+            <if test="province!=null">and province= #{province}</if>
+            <if test="city!=null">and city= #{city}</if>
+            <if test="county!=null">and county= #{county}</if>
+            <if test="street!=null">and street= #{street}</if>
+            <if test="detailedAddress!=null">and detailed_address= #{detailedAddress}</if>
+        </where>
+    </select>
 </mapper>

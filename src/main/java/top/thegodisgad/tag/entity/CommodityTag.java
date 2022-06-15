@@ -1,8 +1,11 @@
 package top.thegodisgad.tag.entity;
 
+import lombok.Data;
+import top.thegodisgad.tag.group.TagGroup;
+
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 拥有的标签(所有标签)
@@ -28,6 +31,7 @@ public class CommodityTag implements Serializable {
     /**
      * 拥有者标识
      */
+    @NotBlank(groups = {TagGroup.Add.class},message = "商品id不能为空")
     private Long commodityId;
 
     /**

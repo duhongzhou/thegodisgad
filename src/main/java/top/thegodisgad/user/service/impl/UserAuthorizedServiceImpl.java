@@ -32,9 +32,18 @@ public class UserAuthorizedServiceImpl
         this.userLoginLogService = userLoginLogService;
     }
 
+    /**
+     * @param identifier
+     * @param oldCertificate
+     * @return
+     */
+    @Override
+    public boolean verifyOldCertificate(String identifier, String oldCertificate) {
+        UserAuthorized userAuthorized = userAuthorizedMapper.selectAllByIdentifier(identifier);
+        return userAuthorized.getCertificate().equals(oldCertificate);
+    }
 
     /**
-     * @param userAuthorized
      * @return boolean
      * @description: login
      * @author 杜洪洲
@@ -51,7 +60,7 @@ public class UserAuthorizedServiceImpl
             throw new UserException(UserExceptionEnum.IDENTIFIER_NO_REGISTERED);
         }
         UserLoginLog userLoginLog = new UserLoginLog();
-        userLoginLog.setLoginIp(RequestUtil.getIP(request));
+        userLoginLog.setLoginIp(RequestUtil.getIp(request));
         userLoginLog.setCertificate(userAuthorized.getCertificate());
         userLoginLog.setIdentifier(userAuthorized.getIdentifier());
 
@@ -68,10 +77,8 @@ public class UserAuthorizedServiceImpl
     }
 
     /**
-     * @param userAuthorized
      * @return boolean
-     * @throws UserException
-     * @description: TODO:registered
+     * @description: registered
      * @author 杜洪洲
      * @date 2022/5/22 15:37
      */
@@ -94,9 +101,8 @@ public class UserAuthorizedServiceImpl
     }
 
     /**
-     * @param userAuthorized
      * @return boolean
-     * @description: TODO:changeCertificate
+     * @description: changeCertificate
      * @author 杜洪洲
      * @date 2022/5/22 15:37
      * @throw
@@ -111,9 +117,8 @@ public class UserAuthorizedServiceImpl
     }
 
     /**
-     * @param userAuthorized
      * @return boolean
-     * @description: TODO:logout
+     * @description: logout
      * @author 杜洪洲
      * @date 2022/5/22 15:39
      * @throw
@@ -133,8 +138,30 @@ public class UserAuthorizedServiceImpl
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Long getUserId(String identifier) {
         return userAuthorizedMapper.selectUserIdByIdentifier(identifier);
+    }
+
+    /**
+     * @param userId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public UserAuthorized findCertificateByUserId(Long userId) {
+        UserAuthorized userAuthorized = userAuthorizedMapper.selectCertificateByUserId(userId);
+        return userAuthorized;
+    }
+
+    /**
+     * @param userId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean registeredOut(Long userId) {
+        return userAuthorizedMapper.deletByUserId(userId) == 1;
     }
 }
 

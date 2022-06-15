@@ -16,7 +16,7 @@ import top.thegodisgad.user.service.UserLoginLogService;
 @Service
 public class UserLoginLogServiceImpl 
     implements UserLoginLogService{
-    private UserLoginLogMapper userLoginLogMapper;
+    private final UserLoginLogMapper userLoginLogMapper;
     @Autowired
     public UserLoginLogServiceImpl(UserLoginLogMapper userLoginLogMapper) {
         this.userLoginLogMapper = userLoginLogMapper;

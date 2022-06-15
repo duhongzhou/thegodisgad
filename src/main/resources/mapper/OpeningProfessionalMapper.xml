@@ -5,16 +5,36 @@
 <mapper namespace="top.thegodisgad.school.mapper.OpeningProfessionalMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.school.entity.OpeningProfessional">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="openingProfessionalId" column="opening_professional_id" jdbcType="BIGINT"/>
-            <result property="academyId" column="academy_id" jdbcType="BIGINT"/>
-            <result property="professionalId" column="professional_id" jdbcType="BIGINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="openingProfessionalId" column="opening_professional_id" jdbcType="BIGINT"/>
+        <result property="academyId" column="academy_id" jdbcType="BIGINT"/>
+        <result property="professionalId" column="professional_id" jdbcType="BIGINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,gmt_create,gmt_modified,
         opening_professional_id,academy_id,professional_id
     </sql>
+    <insert id="insert" parameterType="top.thegodisgad.school.entity.OpeningProfessional">
+        insert into tb_opening_professional(opening_professional_id, academy_id, professional_id)
+        values (#{openingProfessionalId}, #{academyId}, #{professionalId})
+    </insert>
+    <delete id="delete">
+        delete
+        from tb_opening_professional
+        where academy_id = #{academyId}
+          and professional_id = #{professionalId}
+    </delete>
+    <select id="selectByAcademyId" resultType="top.thegodisgad.school.entity.OpeningProfessional">
+        select <include refid="Base_Column_List"/>
+        from tb_opening_professional
+        where academy_id=#{academyId}
+    </select>
+    <select id="selectByProfessionalId" resultType="top.thegodisgad.school.entity.OpeningProfessional">
+        select <include refid="Base_Column_List"/>
+        from tb_opening_professional
+        where professional_id=#{professionalId}
+    </select>
 </mapper>

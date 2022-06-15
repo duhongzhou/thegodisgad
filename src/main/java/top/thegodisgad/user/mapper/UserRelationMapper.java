@@ -37,8 +37,6 @@ public interface UserRelationMapper  {
      * @author 杜洪洲
      * @description: TODO:selectByUserIdAndFriendId
      * @date 2022/5/23 17:41
-     * @param userId
-     * @param friendId
      * @return UserRelation
      * @throw
      */

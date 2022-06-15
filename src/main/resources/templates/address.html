@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>地址选择</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<form>
+    <label for="province">省</label>
+    <input type="text" list="provinces" name="province" id="province">
+    <datalist id="provinces">
+        <option>北京市</option>
+        <option>天津市</option>
+        <option>河北省</option>
+        <option>山西省</option>
+        <option>内蒙古自治区</option>
+        <option>辽宁省</option>
+        <option>吉林省</option>
+        <option>黑龙江省</option>
+        <option>上海市</option>
+        <option>江苏省</option>
+        <option>浙江省</option>
+        <option>安徽省</option>
+        <option>福建省</option>
+        <option>江西省</option>
+        <option>山东省</option>
+        <option>河南省</option>
+        <option>湖北省</option>
+        <option>湖南省</option>
+        <option>广东省</option>
+        <option>广西壮族自治区</option>
+        <option>海南省</option>
+        <option>重庆市</option>
+        <option>四川省</option>
+        <option>贵州省</option>
+        <option>云南省</option>
+        <option>西藏自治区</option>
+        <option>陕西省</option>
+        <option>甘肃省</option>
+        <option>青海省</option>
+        <option>宁夏回族自治区</option>
+        <option>新疆维吾尔自治区</option>
+        <option>台湾省</option>
+        <option>香港特别行政区</option>
+        <option>澳门特别行政区</option>
+
+    </datalist>
+    <label for="city">城市</label>
+    <input type="text" name="city" id="city" list="citys">
+    <datalist id="citys">
+    </datalist>
+    <label for="district">区/县</label>
+    <input type="text" name="district" id="district" list="districts">
+    <datalist id="districts">
+    </datalist>
+    <label for="street">街道/乡镇</label>
+    <input type="text" name="district" id="street" list="streets">
+    <datalist id="streets">
+    </datalist>
+    <label for="detailedAddress">详细地址</label>
+    <input type="text" name="detailedAddress" id="detailedAddress">
+    <input  type="button" value="添加">
+</form>
+<script>
+
+    function requestdistricts(input, childrenDataList) {
+        var val = input.val();
+        console.log(val);
+        if (val !== "") {
+            $.ajax({
+                    url: "https:///restapi.amap.com/v3/config/district?key=cfd5435365c43c5de7307cb3537ba58c&keywords=" + val + "&subdistrict=1&extensions=base",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 1) {
+
+                            $.each(data.districts[0].districts, function (i, item) {
+                                childrenDataList.append("<option>" + item.name + "</option>");
+                                console.log("<option>" + item.name + "</option>");
+                            })
+                        }
+                    },
+                    error: function (data) {
+                        alert("失败");
+                    }
+                }
+            );
+        }
+
+    }
+    var province;
+    $("#province").focusin(function (){
+            province=this.value;
+            console.log(province);
+        }
+    )
+    $("#province").focusout(function () {
+        if(this.value!==province){
+            var citys = $("#citys");
+            citys.empty();
+            $("#city").val("");
+            // ???
+            var districts = $("#districts");
+            districts.empty();
+            $("#district").val("");
+            ///_________
+            var streets = $("#streets");
+            streets.empty();
+            $("#street").val("");
+            requestdistricts($("#province"), citys);
+        }
+    });
+    var city;
+    $("#city").focusin(function (){
+            province=this.value;
+            console.log(province);
+        }
+    )
+    $("#city").focusout(function () {
+        if(this.value!==city){
+            var districts = $("#districts");
+            districts.empty();
+            $("#district").val("");
+            ///_________
+            var streets = $("#streets");
+            streets.empty();
+            $("#street").val("");
+            requestdistricts($("#city"), districts);
+        }
+    });
+    var district;
+    $("#city").focusin(function (){
+            province=this.value;
+            console.log(province);
+        }
+    )
+    $("#district").focusout(function () {
+        if(this.value!==district){
+            var streets = $("#streets");
+            streets.empty();
+            $("#street").val("");
+            requestdistricts($("#district"), streets);
+        }
+    });
+
+</script>
+</body>
+</html>

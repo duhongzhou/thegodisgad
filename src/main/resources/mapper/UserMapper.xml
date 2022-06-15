@@ -40,6 +40,11 @@
                status
         from tb_user
     </sql>
+    <delete id="deleteByUserId">
+        delete
+        from tb_user
+        where user_id = #{userId}
+    </delete>
     <resultMap id="SimpleResultMap" type="top.thegodisgad.user.entity.User">
         <result property="userId" column="user_id" jdbcType="BIGINT"/>
         <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
@@ -63,7 +68,8 @@
         where user_id=#{userId}
     </select>
 
-    <select id="selectUsers" resultType="top.thegodisgad.user.entity.User" resultMap="SimpleResultMap" parameterType="top.thegodisgad.user.entity.User">
+    <select id="selectUsers" resultType="top.thegodisgad.user.entity.User" resultMap="SimpleResultMap"
+            parameterType="top.thegodisgad.user.entity.User">
         <include refid="Simple_Column_list"/>
         <where>
             <if test="userId!=null">or user_id=#{userId}</if>
@@ -72,8 +78,18 @@
             and status=1
         </where>
     </select>
+    <select id="selectByUserIds" resultType="top.thegodisgad.user.entity.User">
+        <include refid="Simple_Column_list"/>
+        where user_id in
+        <foreach collection="list" item="userId" open="(" close=")" separator=",">#{userId}</foreach>
+    </select>
+    <select id="selectByUserName" resultMap="SimpleResultMap">
+        <include refid="Base_Column_List"/>
+        where user_name=#{userName}
+    </select>
+
     <sql id="Base_User_key">
-        <trim suffixOverrides="," >
+        <trim suffixOverrides=",">
             <if test="userId!=null">user_id,</if>
             <if test="nickName!=null and nickName!=''">nick_name,</if>
             <if test="registerSource!=null">register_source,</if>
@@ -87,7 +103,7 @@
         </trim>
     </sql>
     <sql id="Base_User_values">
-        <trim suffixOverrides="," >
+        <trim suffixOverrides=",">
             <if test="userId!=null">#{userId},</if>
             <if test="nickName!=null and nickName!=''">#{nickName},</if>
             <if test="registerSource!=null">#{registerSource},</if>

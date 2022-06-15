@@ -5,13 +5,13 @@
 <mapper namespace="top.thegodisgad.school.mapper.TeacherMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.school.entity.Teacher">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="schoolId" column="school_id" jdbcType="BIGINT"/>
-            <result property="academyId" column="academy_id" jdbcType="BIGINT"/>
-            <result property="professionalId" column="professional_id" jdbcType="BIGINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="schoolId" column="school_id" jdbcType="BIGINT"/>
+        <result property="academyId" column="academy_id" jdbcType="BIGINT"/>
+        <result property="professionalId" column="professional_id" jdbcType="BIGINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -19,4 +19,35 @@
         user_id,school_id,academy_id,
         professional_id
     </sql>
+    <insert id="insert">
+        insert into tb_teacher(user_id, school_id, academy_id, professional_id)
+        values (#{userId}, #{schoolId}, #{academyId}, #{professionalId})
+    </insert>
+    <delete id="delete">
+        delete
+        from tb_teacher
+        <where>
+            user_id=#{userId}
+            <if test="schoolId !=null">and school_id=#{schoolId}</if>
+            <if test="academyId !=null">and academy_id=#{academyId}</if>
+            <if test="professionalId !=null">and professional_id=#{professionalId}</if>
+        </where>
+    </delete>
+    <select id="findAllByUserId" resultType="top.thegodisgad.school.entity.Teacher">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_teacher
+        where user_id=#{userId}
+    </select>
+    <select id="findAllBy" resultType="top.thegodisgad.school.entity.Teacher">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_teacher
+        <where>
+            <if test="userId !=null">and user_id=#{userId}</if>
+            <if test="schoolId !=null">and school_id=#{schoolId}</if>
+            <if test="academyId !=null">and academy_id=#{academyId}</if>
+            <if test="professionalId !=null">and professional_id=#{professionalId}</if>
+        </where>
+    </select>
 </mapper>

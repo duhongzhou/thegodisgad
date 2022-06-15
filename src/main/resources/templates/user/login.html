@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
     <script src="/js/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/css/login_registered_style.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
 <div class="header"></div>
 <div class="container">
-    <form action="/api/user/login" method="get">
+    <form id="login" action="/api/user/login/post" method="post">
         <div class="option">
             <label for="identifier" th:text="#{user.account}">账号</label>
             <input type="text" name="identifier" id="identifier">
@@ -19,11 +19,44 @@
             <label for="certificate">密码</label>
             <input type="password" name="certificate" id="certificate">
         </div>
-            <div class="option">
-                <input type="submit" value="登录" id="submit_button">
-            </div>
+        <div class="option">
+            <input type="button" onclick="login()" value="登录" id="submit_button">
+        </div>
     </form>
+
+
 </div>
 <div class="footer"></div>
 </body>
 </html>
+<script type="text/javascript">
+
+    function login() {
+        var serializeArray = $("#login").serializeArray();
+        var obj={};
+        $.each(serializeArray,function (i,s){
+           obj[s.name]=s.value;
+        });
+        $.ajax({
+                url: "/api/user/login/post",
+                type: "POST",
+                data: JSON.stringify(obj),
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    var response = JSON.stringify(data);
+                    console.log(response);
+                    if(data.code==-1)
+                    {
+                        window.location.href="/message/send";
+                    }
+                    alert(response.code);
+
+                },
+                error: function (data) {
+                  alert("失败");
+                }
+            }
+        );
+    }
+</script>

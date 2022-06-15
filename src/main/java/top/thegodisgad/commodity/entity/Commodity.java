@@ -70,12 +70,12 @@ public class Commodity implements Serializable {
     /**
      * 库存数量
      */
-    private Object inventoryNumber;
+    private Integer inventoryNumber;
 
     /**
      * 想要人数(下单)
      */
-    private Object wantNumber;
+    private Integer wantNumber;
 
     private static final long serialVersionUID = 1L;
 }

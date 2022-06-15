@@ -5,28 +5,37 @@
 <mapper namespace="top.thegodisgad.blog.mapper.BlogPostMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.blog.entity.BlogPost">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="parentalBlogId" column="parental_blog_id" jdbcType="BIGINT"/>
-            <result property="rootBlogId" column="root_blog_id" jdbcType="BIGINT"/>
-            <result property="blogId" column="blog_id" jdbcType="BIGINT"/>
-            <result property="subBlogNumber" column="sub_blog_number" jdbcType="OTHER"/>
-            <result property="title" column="title" jdbcType="VARCHAR"/>
-            <result property="value" column="value" jdbcType="VARCHAR"/>
-            <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
-            <result property="browseNumber" column="browse_number" jdbcType="BIGINT"/>
-            <result property="reviewerNumber" column="reviewer_number" jdbcType="BIGINT"/>
-            <result property="reviewNumber" column="review_number" jdbcType="BIGINT"/>
-            <result property="goodReview" column="good_review" jdbcType="BIGINT"/>
-            <result property="badReview" column="bad_review" jdbcType="BIGINT"/>
-            <result property="recommendedWeight" column="recommended_weight" jdbcType="DECIMAL"/>
-            <result property="isAnonymous" column="is_anonymous" jdbcType="TINYINT"/>
-            <result property="overtState" column="overt_state" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="parentalBlogId" column="parental_blog_id" jdbcType="BIGINT"/>
+        <result property="rootBlogId" column="root_blog_id" jdbcType="BIGINT"/>
+        <result property="blogId" column="blog_id" jdbcType="BIGINT"/>
+        <result property="subBlogNumber" column="sub_blog_number" jdbcType="BIGINT"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="value" column="value" jdbcType="VARCHAR"/>
+        <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
+        <result property="browseNumber" column="browse_number" jdbcType="BIGINT"/>
+        <result property="reviewerNumber" column="reviewer_number" jdbcType="BIGINT"/>
+        <result property="reviewNumber" column="review_number" jdbcType="BIGINT"/>
+        <result property="goodReview" column="good_review" jdbcType="BIGINT"/>
+        <result property="badReview" column="bad_review" jdbcType="BIGINT"/>
+        <result property="recommendedWeight" column="recommended_weight" jdbcType="DECIMAL"/>
+        <result property="isAnonymous" column="is_anonymous" jdbcType="TINYINT"/>
+        <result property="overtState" column="overt_state" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
+        id,gmt_create,gmt_modified,
+        user_id,parental_blog_id,root_blog_id,
+        blog_id,sub_blog_number,title,
+        LEFT(value,100) as `value`,is_valid,browse_number,
+        reviewer_number,review_number,good_review,
+        bad_review,recommended_weight,is_anonymous,
+        overt_state
+    </sql>
+    <sql id="All_Column_List">
         id,gmt_create,gmt_modified,
         user_id,parental_blog_id,root_blog_id,
         blog_id,sub_blog_number,title,
@@ -35,4 +44,96 @@
         bad_review,recommended_weight,is_anonymous,
         overt_state
     </sql>
+    <sql id="insert_key">
+        <trim suffixOverrides=",">
+            <if test="userId!=null">user_id,</if>
+            <if test="parentalBlogId!=null">parental_blog_id,</if>
+            <if test="rootBlogId!=null">root_blog_id,</if>
+            <if test="blogId!=null">blog_id,</if>
+            <if test="subBlogNumber!=null">sub_blog_number,</if>
+            <if test="title!=null">title,</if>
+            <if test="value!=null">value,</if>
+            <if test="isAnonymous!=null">is_anonymous,</if>
+            <if test="overtState!=null">overt_state
+            </if>
+        </trim>
+    </sql>
+    <sql id="insert_value">
+        <trim suffixOverrides=",">
+            <if test="userId!=null">#{userId},</if>
+            <if test="parentalBlogId!=null">#{parentalBlogId},</if>
+            <if test="rootBlogId!=null">#{rootBlogId},</if>
+            <if test="blogId!=null">#{blogId},</if>
+            <if test="subBlogNumber!=null">#{subBlogNumber},</if>
+            <if test="title!=null">#{title},</if>
+            <if test="value!=null">#{value},</if>
+            <if test="isAnonymous!=null">#{isAnonymous},</if>
+            <if test="overtState!=null">#{overtState}
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insert">
+        insert into tb_blog_post(<include refid="insert_key"/>)
+        values (<include refid="insert_value"/>)
+    </insert>
+
+    <update id="deleteByBlogIdAndUserId">
+        update tb_blog_post
+        set is_valid=0
+        where user_id = #{uerId}
+          and blog_Id = #{blogId}
+    </update>
+    <update id="updateBadReviewByBlogIdInt">
+        update tb_blog_post
+        set bad_review=#{badReview}
+        where blog_Id = #{blogId}
+    </update>
+    <update id="updateGoodReviewByBlogIdInt">
+        update tb_blog_post
+        set good_review=#{goodReview}
+        where blog_Id = #{blogId}
+    </update>
+    <update id="updateBrowseNumberByBlogIdInt">
+        update tb_blog_post
+        set good_review=#{goodReview}
+        where blog_Id = #{blogId}
+    </update>
+    <update id="updateReviewerNumberByBlogIdInt">
+        update tb_blog_post
+        set review_number=#{reviewNumber}
+        where blog_Id = #{blogId}
+    </update>
+    <select id="searchAllByBlogId" resultType="top.thegodisgad.blog.entity.BlogPost">
+        select
+        <include refid="All_Column_List"/>
+        from tb_blog_post
+        where blog_id=#{blogId} or root_blog_id=#{blogId}
+        order by id
+    </select>
+    <select id="searchAll" resultType="top.thegodisgad.blog.entity.BlogPost">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_blog_post
+        where root_blog_id=0
+        order by gmt_create desc
+        limit #{start},#{length}
+    </select>
+    <select id="searchAllByBlogIds" resultType="top.thegodisgad.blog.entity.BlogPost">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_blog_post
+        where blog_id in
+        <foreach collection="list" open="(" close=")" item="blogId" separator=",">
+            #{blogId}
+        </foreach>
+        order by id
+    </select>
+    <select id="searchAllByUserId" resultType="top.thegodisgad.blog.entity.BlogPost">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_blog_post
+        where user_id =#{userId} and is_valid=1
+        order by id
+    </select>
 </mapper>

@@ -23,7 +23,6 @@ public interface UserInformationLogMapper  {
      * @author 杜洪洲
      * @description: TODO:insert
      * @date 2022/5/24 17:34
-     * @param userInformationLog
      * @return int
      * @throw
      */
@@ -35,7 +34,6 @@ public interface UserInformationLogMapper  {
      * @author 杜洪洲
      * @description: TODO:selectByUserId
      * @date 2022/5/24 17:36
-     * @param userId
      * @return top.thegodisgad.user.entity.UserInformationLog
      * @throw
      */

@@ -1,7 +1,17 @@
 package top.thegodisgad.exception;
 
+/**
+ * @author yhdhz
+ */
+
 public enum BaseExceptionEnum implements BaseExceptionInfoSet{
+    /**
+     * 未知错误
+     */
     BASE_EXCEPTION_ENUM(0L,"未知错误","Unknown");
+    /**
+     * 错误编号
+     */
     private final Long index;
     /**
      * 错误信息
@@ -29,12 +39,4 @@ public enum BaseExceptionEnum implements BaseExceptionInfoSet{
         return code;
     }
 
-    @Override
-    public String toString() {
-        return "UserExceptionEnum{" +
-                "index=" + index +
-                ", message='" + message + '\'' +
-                ", code='" + code + '\'' +
-                '}';
-    }
 }

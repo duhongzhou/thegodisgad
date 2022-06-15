@@ -5,13 +5,13 @@
 <mapper namespace="top.thegodisgad.school.mapper.AcademyMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.school.entity.Academy">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="schoolId" column="school_id" jdbcType="BIGINT"/>
-            <result property="academyId" column="academy_id" jdbcType="BIGINT"/>
-            <result property="academyName" column="academy_name" jdbcType="VARCHAR"/>
-            <result property="note" column="note" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="schoolId" column="school_id" jdbcType="BIGINT"/>
+        <result property="academyId" column="academy_id" jdbcType="BIGINT"/>
+        <result property="academyName" column="academy_name" jdbcType="VARCHAR"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -19,4 +19,55 @@
         school_id,academy_id,academy_name,
         note
     </sql>
+    <insert id="insert">
+        insert into tb_academy(school_id, academy_id, academy_name,
+                               note)
+        values (#{schoolId}, #{academyId}, #{academyName},
+                #{note})
+    </insert>
+    <update id="updateByAcademyId" parameterType="top.thegodisgad.school.entity.Academy">
+        update tb_academy
+        <set>
+            <if test="academyName!=null">academy_name=#{academyName},</if>
+            <if test="note!=null">note=#{note}</if>
+        </set>
+        where academy_id = #{academyId}
+    </update>
+
+    <delete id="deleteByAcademyId">
+        delete
+        from tb_academy
+        where academy_id = #{academyId}
+    </delete>
+    <select id="select" resultType="top.thegodisgad.school.entity.Academy"
+            parameterType="top.thegodisgad.school.entity.Academy" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_academy
+        <where>
+            <if test="schoolId!=null">and school_id=#{schoolId}</if>
+            <if test="academyId!=null">and academy_id=#{academyId}</if>
+            <if test="academyName!=null">and academy_name=#{academyName}</if>
+        </where>
+    </select>
+    <select id="selectBySchoolId" resultType="top.thegodisgad.school.entity.Academy">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_academy
+        where school_id=#{schoolId}
+    </select>
+    <select id="selectByAcademyIds" resultType="top.thegodisgad.school.entity.Academy">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_academy
+        where academy_id in
+        <foreach collection="list" item="academyId" open="(" close=")">#{academyId}</foreach>
+    </select>
+    <select id="selectByAcademyId" resultType="top.thegodisgad.school.entity.Academy">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_academy
+        where academy_id =#{academyId}
+    </select>
+
 </mapper>

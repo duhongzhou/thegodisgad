@@ -12,26 +12,23 @@ import java.util.Date;
  */
 @Data
 public class UserInformationLog implements Serializable {
+    private static final long serialVersionUID = 1L;
     /**
      * 自增标识,必为主键
      */
     private Long id;
-
     /**
      * 创建时间
      */
     private Date gmtCreate;
-
     /**
      * 更新时间
      */
     private Date gmtModified;
-
     /**
      * 操作人
      */
     private Long operator;
-
     /**
      * 用户标识
      */
@@ -40,57 +37,46 @@ public class UserInformationLog implements Serializable {
      * 昵称
      */
     private String nickName;
-
     /**
      * 注册来源;1:手机;2:邮箱;3:用户名;4:第三方
      */
     private Integer registerSource;
-
     /**
      * 用户名
      */
     private String userName;
-
     /**
      * 手机号
      */
     private String mobile;
-
     /**
      * 手机绑定时间
      */
     private Date mobileBindTime;
-
     /**
      * 邮箱
      */
     private String email;
-
     /**
      * 手机绑定时间
      */
     private Date emailBindTime;
-
     /**
      * 用户生日
      */
     private Date birthday;
-
     /**
      * 性别
      */
     private Integer gender;
-
     /**
      * 头像
      */
     private Long headPortrait;
-
     /**
      * 状态;1:正常;2:封禁;0:注销;
      */
     private Integer status;
-
     /**
      * 证书;密码
      */
@@ -99,7 +85,6 @@ public class UserInformationLog implements Serializable {
      * 旧密码
      */
     private String oldCertificate;
-
 
     public User getUser() {
         User user = new User();
@@ -123,6 +108,7 @@ public class UserInformationLog implements Serializable {
             this.operator = operator;
         }
         this.userId = user.getUserId();
+
         this.nickName = user.getNickName();
         this.registerSource = user.getRegisterSource();
         this.userName = user.getUserName();
@@ -135,6 +121,13 @@ public class UserInformationLog implements Serializable {
         this.headPortrait = user.getHeadPortrait();
         this.status = user.getStatus();
     }
+
+    /**
+     * 调用此方法必须在setUser子前,否则会覆盖userId
+     *
+     * @return
+     * @methon setUser
+     */
     public UserAuthorized getUserAuthorized() {
         UserAuthorized userAuthorized = new UserAuthorized();
         userAuthorized.setUserId(this.userId);
@@ -142,6 +135,7 @@ public class UserInformationLog implements Serializable {
         userAuthorized.setIsValid(this.status);
         return userAuthorized;
     }
+
     public UserAuthorized getUserAuthorizedForName() {
         UserAuthorized result = null;
         if (this.userName != null) {
@@ -180,12 +174,12 @@ public class UserInformationLog implements Serializable {
 
             this.operator = operator;
         }
-        this.userId = userAuthorized.getUserId();
+        if (userAuthorized.getUserId() != null) {
+            this.userId = userAuthorized.getUserId();
+        }
         this.certificate = userAuthorized.getCertificate();
         this.status = userAuthorized.getIsValid();
     }
-
-    private static final long serialVersionUID = 1L;
 
 
 }

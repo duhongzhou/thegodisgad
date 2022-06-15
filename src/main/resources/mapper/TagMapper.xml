@@ -5,14 +5,14 @@
 <mapper namespace="top.thegodisgad.tag.mapper.TagMapper">
 
     <resultMap id="BaseResultMap" type="top.thegodisgad.tag.entity.Tag">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
-            <result property="creatorId" column="creator_id" jdbcType="BIGINT"/>
-            <result property="tagId" column="tag_id" jdbcType="BIGINT"/>
-            <result property="tagName" column="tag_name" jdbcType="VARCHAR"/>
-            <result property="tagProperty" column="tag_property" jdbcType="VARCHAR"/>
-            <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <result property="creatorId" column="creator_id" jdbcType="BIGINT"/>
+        <result property="tagId" column="tag_id" jdbcType="BIGINT"/>
+        <result property="tagName" column="tag_name" jdbcType="VARCHAR"/>
+        <result property="tagProperty" column="tag_property" jdbcType="VARCHAR"/>
+        <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -20,4 +20,41 @@
         creator_id,tag_id,tag_name,
         tag_property,is_valid
     </sql>
+    <insert id="insert" parameterType="top.thegodisgad.tag.entity.Tag">
+        insert into tb_tag(creator_id, tag_id, tag_name, tag_property)
+        values (#{creatorId}, #{tagId}, #{tagName}, #{tagProperty})
+    </insert>
+    <update id="delete">
+        update tb_tag
+        set is_valid=0
+        where tag_id = #{tagId}
+    </update>
+    <select id="selectByTagId" resultType="top.thegodisgad.tag.entity.Tag">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_tag
+        where tag_id in
+        <foreach collection="list" open="(" close=")" item="tagId" separator=",">
+            #{tagId}
+        </foreach>
+    </select>
+    <select id="selectByTagName" resultType="top.thegodisgad.tag.entity.Tag">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_tag
+        where tag_name=#{tagName}
+    </select>
+    <select id="selectByCreatorId" resultType="top.thegodisgad.tag.entity.Tag" parameterType="Long">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_tag
+        where creator_id=#{creatorId}
+    </select>
+    <select id="selectTagByTagNameAndTagProperty" resultType="java.lang.Long">
+        select tag_id
+        from tb_tag
+        where tag_name = #{tagName}
+          and tag_property = #{tagProperty}
+    </select>
+
 </mapper>

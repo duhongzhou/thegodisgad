@@ -12,7 +12,7 @@
             <result property="fileId" column="file_id" jdbcType="BIGINT"/>
             <result property="fileUrl" column="file_url" jdbcType="VARCHAR"/>
             <result property="fileFormat" column="file_format" jdbcType="VARCHAR"/>
-            <result property="fileSize" column="file_size" jdbcType="INTEGER"/>
+            <result property="fileSize" column="file_size" jdbcType="BIGINT"/>
             <result property="isValid" column="is_valid" jdbcType="TINYINT"/>
     </resultMap>
 
@@ -21,4 +21,17 @@
         user_id,file_id,file_url,
         file_format,file_size,is_valid
     </sql>
+    <insert id="insert">
+        insert into tb_file_upload(user_id,file_id,file_url,file_format,file_size) values(#{userId},#{fileId},#{fileUrl},#{fileFormat},#{fileSize})
+    </insert>
+    <update id="delete">
+        update tb_file_upload
+        set is_valid=0
+        where file_id=#{fileId}
+    </update>
+    <select id="selectByFileId" resultType="top.thegodisgad.file.entity.FileUpload">
+        select <include refid="Base_Column_List"/>
+        from tb_file_upload
+        where file_id=#{fileId} and is_valid=1
+    </select>
 </mapper>

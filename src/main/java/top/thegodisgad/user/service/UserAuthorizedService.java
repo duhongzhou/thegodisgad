@@ -21,7 +21,6 @@ public interface UserAuthorizedService {
     /*--------------------------------------------------------*/
 
     /**
-     * @param userAuthorized
      * @return boolean
      * @description: login
      * @author 杜洪洲
@@ -29,20 +28,20 @@ public interface UserAuthorizedService {
      * @throw
      */
     public Long login(UserAuthorized userAuthorized, HttpServletRequest request);
-    /*--------------------------------------------------------*/
 
+    /*--------------------------------------------------------*/
+    public boolean verifyOldCertificate(String identifier, String oldCertificate);
     /*--------------------------------------------------------*/
 
     /**
-     * @param userAuthorized
      * @return boolean
      * @description: registered
      * @author 杜洪洲
      * @date 2022/5/22 15:29
      * @throw
      */
-    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
-    public boolean registered(UserAuthorized userAuthorized) ;
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public boolean registered(UserAuthorized userAuthorized);
     /*--------------------------------------------------------*/
 
     /*--------------------------------------------------------*/
@@ -50,11 +49,10 @@ public interface UserAuthorizedService {
     /**
      * changeCertificate
      *
-     * @author 杜洪洲
-     * @description: TODO:changeCertificate
-     * @date 2022/5/24 18:45
-     * @param userAuthorized
      * @return boolean
+     * @author 杜洪洲
+     * @description: changeCertificate
+     * @date 2022/5/24 18:45
      * @throw
      */
 
@@ -62,29 +60,32 @@ public interface UserAuthorizedService {
     /*--------------------------------------------------------*/
 
     /*--------------------------------------------------------*/
+
     /**
-     *
+     * @return boolean
      * @description: logout
      * @author 杜洪洲
      * @date 2022/5/22 15:32
-     * @param userAuthorized
-     * @return boolean
      * @throw
      */
     public boolean logout(UserAuthorized userAuthorized);
     /*--------------------------------------------------------*/
 
     /*--------------------------------------------------------*/
+
     /**
      * getUserId
      *
-     * @author 杜洪洲
-     * @description: TODO:getUserId
-     * @date 2022/5/24 16:05
-     * @param identifier
      * @return java.lang.Long
+     * @author 杜洪洲
+     * @description: getUserId
+     * @date 2022/5/24 16:05
      * @throw
      */
     public Long getUserId(String identifier);
+
+    UserAuthorized findCertificateByUserId(Long userId);
+
+    boolean registeredOut(Long userId);
     /*--------------------------------------------------------*/
 }

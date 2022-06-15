@@ -33,7 +33,6 @@ public abstract class BaseException extends RuntimeException implements BaseExce
     /**
      * this.index=super.index+"."+index;
      *
-     * @param index
      */
     public abstract void setIndex(Long index);
 
@@ -43,7 +42,6 @@ public abstract class BaseException extends RuntimeException implements BaseExce
 
     /**
      *
-     * @param code
      */
     public abstract void setCode(String code);
     @Override
@@ -73,7 +71,6 @@ public abstract class BaseException extends RuntimeException implements BaseExce
     /**
      * this.baseCode=super.baseCode+"."+baseCode;
      *
-     * @param baseCode
      */
     protected abstract void setBaseCode(String baseCode);
 
